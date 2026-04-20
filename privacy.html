@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — FlyAll</title>
+  <meta name="description" content="FlyAll's privacy policy: how we collect, use, and protect your information." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="icon" type="image/svg+xml" href="./flyall_favicon.svg" />
+
+  <style>
+    /* Shared brand tokens — identical to index.html */
+    :root{
+      --blue:   #005ca9;
+      --purple: #804d99;
+      --magenta:#e93f8f;
+
+      --brand-gradient: linear-gradient(90deg, #005ca9 0%, #804d99 55%, #e93f8f 100%);
+      --brand-gradient-soft: linear-gradient(135deg, rgba(0,92,169,.08) 0%, rgba(128,77,153,.08) 55%, rgba(233,63,143,.08) 100%);
+
+      --ink:        #0f1b3d;
+      --ink-soft:   rgba(15, 27, 61, .72);
+      --ink-muted:  rgba(15, 27, 61, .54);
+      --ink-faint:  rgba(15, 27, 61, .22);
+
+      --bg:           #ffffff;
+      --bg-tint:      #fafbff;
+      --border:       rgba(15, 27, 61, .10);
+      --border-strong:rgba(15, 27, 61, .18);
+
+      --glass:        rgba(255, 255, 255, .72);
+      --glass-strong: rgba(255, 255, 255, .85);
+      --glass-border: rgba(255, 255, 255, .58);
+
+      --display: "Bricolage Grotesque", "SF Pro Display", system-ui, sans-serif;
+      --body:    "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+      --maxw: 1200px;
+      --maxw-article: 780px;
+      --pad-x: clamp(20px, 4vw, 48px);
+
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+    }
+
+    *,
+    *::before,
+    *::after{ box-sizing: border-box; }
+
+    html{ scroll-behavior: smooth; }
+
+    body{
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--ink);
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    ::selection{ background: rgba(233, 63, 143, .18); color: var(--ink); }
+
+    /* NAV — identical to index.html */
+    .site-nav{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      padding: 14px var(--pad-x);
+      background: #ffffff;
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s var(--ease-out), padding .3s var(--ease-out);
+    }
+    .site-nav.is-scrolled{
+      border-bottom-color: var(--border);
+      padding: 10px var(--pad-x);
+    }
+
+    .nav-inner{
+      max-width: var(--maxw);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .nav-brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .nav-brand img{
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-links{
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a{
+      padding: 8px 14px;
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: .94rem;
+      border-radius: 999px;
+      transition: color .2s var(--ease-out), background-color .2s var(--ease-out);
+    }
+    .nav-links a:hover{
+      color: var(--ink);
+      background: rgba(15, 27, 61, .04);
+    }
+
+    .nav-cta{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: var(--brand-gradient);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .92rem;
+      box-shadow: 0 8px 24px -8px rgba(128, 77, 153, .55);
+      transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+    }
+    .nav-cta:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px -8px rgba(128, 77, 153, .65);
+    }
+    .nav-cta svg{ width: 14px; height: 14px; }
+
+    .nav-menu-toggle{
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor: pointer;
+      color: var(--ink);
+    }
+
+    /* LEGAL PAGE LAYOUT */
+    main{
+      position: relative;
+      z-index: 2;
+      padding: clamp(40px, 6vw, 72px) var(--pad-x) clamp(48px, 7vw, 96px);
+    }
+
+    .legal-wrap{
+      max-width: var(--maxw);
+      margin: 0 auto;
+    }
+
+    .legal-header{
+      max-width: var(--maxw-article);
+      margin: 0 auto clamp(32px, 4vw, 48px);
+      text-align: center;
+    }
+    .legal-header .eyebrow{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      margin-bottom: 20px;
+    }
+    .legal-header .eyebrow::before{
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--brand-gradient);
+    }
+
+    .legal-header h1{
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin: 0 0 12px;
+      color: var(--ink);
+    }
+    .legal-header .meta{
+      color: var(--ink-muted);
+      font-size: .92rem;
+      margin: 0;
+    }
+
+    /* Glass article card — preserved pattern from original legal pages */
+    .legal-card{
+      max-width: var(--maxw-article);
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: clamp(28px, 4vw, 48px);
+    }
+
+    .legal-card h2{
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 1.25rem;
+      letter-spacing: -0.015em;
+      margin: 34px 0 10px;
+      color: var(--ink);
+      position: relative;
+      padding-left: 18px;
+    }
+    .legal-card h2::before{
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 18px;
+      border-radius: 4px;
+      background: var(--brand-gradient);
+    }
+    .legal-card h2:first-of-type{ margin-top: 4px; }
+
+    .legal-card p,
+    .legal-card li{
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+    .legal-card p{ margin: 0 0 14px; }
+
+    .legal-card strong{ color: var(--ink); font-weight: 600; }
+
+    .legal-card ul{
+      margin: 8px 0 14px 4px;
+      padding-left: 22px;
+    }
+    .legal-card li{ margin-bottom: 6px; }
+
+    .legal-card a{
+      color: var(--purple);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(128, 77, 153, .35);
+      padding-bottom: 1px;
+      transition: color .2s var(--ease-out), border-color .2s var(--ease-out);
+    }
+    .legal-card a:hover{
+      color: var(--magenta);
+      border-bottom-color: rgba(233, 63, 143, .55);
+    }
+
+    /* FOOTER — identical to index.html */
+    .site-footer{
+      padding: 72px var(--pad-x) 36px;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 2;
+    }
+    .footer-inner{
+      max-width: var(--maxw);
+      margin: 0 auto;
+    }
+    .footer-top{
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .footer-brand img{
+      height: 40px;
+      width: auto;
+      margin-bottom: 16px;
+    }
+    .footer-brand p{
+      font-size: .92rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      max-width: 34ch;
+      margin: 0 0 20px;
+    }
+    .footer-social{
+      display: flex;
+      gap: 10px;
+    }
+    .footer-social a{
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 27, 61, .04);
+      color: var(--ink);
+      transition: background .2s var(--ease-out), color .2s var(--ease-out), transform .2s var(--ease-out);
+    }
+    .footer-social a:hover{
+      background: var(--brand-gradient);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .footer-social svg{ width: 16px; height: 16px; }
+
+    .footer-col h4{
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin: 0 0 18px;
+    }
+    .footer-col ul{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-col li{
+      margin-bottom: 12px;
+    }
+    .footer-col a{
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-size: .92rem;
+      transition: color .2s var(--ease-out);
+    }
+    .footer-col a:hover{ color: var(--magenta); }
+
+    .footer-bottom{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 28px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .footer-bottom p{
+      margin: 0;
+      font-size: .85rem;
+      color: var(--ink-muted);
+    }
+    .footer-bottom .footer-legal{
+      display: flex;
+      gap: 24px;
+    }
+    .footer-bottom .footer-legal a{
+      color: var(--ink-muted);
+      text-decoration: none;
+      font-size: .85rem;
+      transition: color .2s var(--ease-out);
+    }
+    .footer-bottom .footer-legal a:hover{ color: var(--ink); }
+
+    /* RESPONSIVE */
+    @media (max-width: 980px){
+      .footer-top{
+        grid-template-columns: 1fr 1fr;
+        gap: 36px 24px;
+      }
+    }
+
+    @media (max-width: 640px){
+      .nav-links{ display: none; }
+      .nav-menu-toggle{ display: inline-flex; }
+
+      .footer-top{
+        grid-template-columns: 1fr;
+      }
+      .footer-bottom{
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *,
+      *::before,
+      *::after{
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- STICKY NAV (identical to index.html) -->
+  <nav class="site-nav" id="siteNav" aria-label="Primary">
+    <div class="nav-inner">
+      <a href="./index.html" class="nav-brand" aria-label="FlyAll home">
+        <img src="./flyall_logo.svg" alt="FlyAll" />
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="./index.html#features">Features</a></li>
+        <li><a href="./index.html#about">About</a></li>
+        <li><a href="./index.html#contact">Contact</a></li>
+      </ul>
+
+      <a href="./index.html#contact" class="nav-cta">
+        Get Early Access
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </a>
+
+      <button class="nav-menu-toggle" aria-label="Open menu" id="navToggle">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <div class="legal-wrap">
+
+      <header class="legal-header">
+        <span class="eyebrow">Legal</span>
+        <h1>Privacy Policy</h1>
+        <p class="meta">Last updated: 2026-01-15</p>
+      </header>
+
+      <article class="legal-card">
+
+        <p>
+          This website is a landing page for FlyAll (the &ldquo;Site&rdquo;). We respect privacy and aim to collect only
+          the minimum data needed to operate the Site and respond to inquiries.
+        </p>
+
+        <h2>Applicable framework</h2>
+        <p>
+          For activities in Israel, we follow the general principles reflected in Israel&rsquo;s privacy framework, including the
+          Protection of Privacy Law, 5741-1981 and the Privacy Protection Regulations (Data Security), 5777-2017.
+        </p>
+
+        <h2>Information we collect</h2>
+        <ul>
+          <li><strong>Contact emails:</strong> If you email us, we receive your email address and the content you send.</li>
+          <li><strong>Technical logs:</strong> Basic server logs (e.g., IP address, user-agent, timestamps) for security and reliability.</li>
+        </ul>
+
+        <h2>How we use information</h2>
+        <ul>
+          <li>To respond to your inquiries and provide requested updates.</li>
+          <li>To operate, secure, and improve the Site (including monitoring abuse and troubleshooting).</li>
+        </ul>
+
+        <h2>Cookies and analytics</h2>
+        <p>
+          The Site may use essential cookies and limited measurement tools. If we add non-essential analytics or third-party tools,
+          we will update this policy accordingly.
+        </p>
+
+        <h2>Sharing</h2>
+        <p>
+          We do not sell personal information. We may use service providers (e.g., hosting, email) and share limited data with them
+          only as required to operate the Site, under appropriate safeguards.
+        </p>
+
+        <h2>Data security</h2>
+        <p>
+          We apply reasonable administrative and technical measures to protect information, such as access controls and security monitoring.
+        </p>
+
+        <h2>Retention</h2>
+        <p>
+          We retain contact emails and logs only as long as necessary for the purposes described above, and then delete or anonymize them where feasible.
+        </p>
+
+        <h2>Your rights</h2>
+        <p>
+          You may request to review and correct personal information we maintain about you, subject to applicable law.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          For privacy questions: <a href="mailto:omeral@checkin-travel.io">omeral@checkin-travel.io</a>
+        </p>
+
+      </article>
+    </div>
+  </main>
+
+  <!-- FOOTER (identical to index.html) -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="./flyall_logo.svg" alt="FlyAll" />
+          <p>Travel technology for the way you actually move through the world. Currently in stealth, based in Tel Aviv, Israel.</p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/company/110755353/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.73V1.73C24 .77 23.21 0 22.23 0Z"/></svg>
+            </a>
+            <a href="mailto:omeral@checkin-travel.io" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="./index.html#features">Features</a></li>
+            <li><a href="./index.html#about">About</a></li>
+            <li><a href="./index.html#contact">Early Access</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="./index.html#about">Our story</a></li>
+            <li><a href="https://www.linkedin.com/company/110755353/" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="mailto:omeral@checkin-travel.io">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="./privacy.html">Privacy Policy</a></li>
+            <li><a href="./terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 FlyAll · Based in Tel Aviv, Israel</p>
+        <div class="footer-legal">
+          <a href="./privacy.html">Privacy</a>
+          <a href="./terms.html">Terms</a>
+          <a href="mailto:omeral@checkin-travel.io">Contact</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    /* Sticky nav scrolled state */
+    (function(){
+      const nav = document.getElementById('siteNav');
+      if (!nav) return;
+      let ticking = false;
+      function onScroll(){
+        if (!ticking){
+          requestAnimationFrame(function(){
+            if (window.scrollY > 10) nav.classList.add('is-scrolled');
+            else nav.classList.remove('is-scrolled');
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    /* Simple mobile menu toggle */
+    (function(){
+      const btn = document.getElementById('navToggle');
+      const links = document.querySelector('.nav-links');
+      if (!btn || !links) return;
+      btn.addEventListener('click', function(){
+        const open = links.style.display === 'flex';
+        if (open){
+          links.style.display = '';
+        } else {
+          links.style.display = 'flex';
+          links.style.position = 'absolute';
+          links.style.top = '100%';
+          links.style.left = '0';
+          links.style.right = '0';
+          links.style.flexDirection = 'column';
+          links.style.padding = '12px';
+          links.style.background = 'rgba(255,255,255,0.96)';
+          links.style.backdropFilter = 'blur(14px)';
+          links.style.borderBottom = '1px solid var(--border)';
+          links.style.gap = '0';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

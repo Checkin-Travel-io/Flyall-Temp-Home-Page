@@ -1,0 +1,1299 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FlyAll — Your travels, reimagined</title>
+  <meta name="description" content="FlyAll is building a travel technology platform that streamlines booking and trip workflows. Experience a seamless, personalized journey from start to finish." />
+
+  <!-- Social preview -->
+  <meta property="og:title" content="FlyAll — Your travels, reimagined" />
+  <meta property="og:description" content="A seamless, personalized journey from start to finish." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="icon" type="image/svg+xml" href="./flyall_favicon.svg" />
+
+  <style>
+    /* ============================================================
+       BRAND TOKENS
+       Extracted directly from the official FlyAll brand guidelines:
+       - Main gradient: #005ca9 -> #804d99 -> #e93f8f
+       - Secondary: grayscale ladder #a0a0a0 -> #f2f2f2
+       ============================================================ */
+    :root{
+      /* Primary brand */
+      --blue:   #005ca9;
+      --purple: #804d99;
+      --magenta:#e93f8f;
+
+      /* Signature gradient (left -> right, used across logo, CTAs, accents) */
+      --brand-gradient: linear-gradient(90deg, #005ca9 0%, #804d99 55%, #e93f8f 100%);
+      --brand-gradient-soft: linear-gradient(135deg, rgba(0,92,169,.08) 0%, rgba(128,77,153,.08) 55%, rgba(233,63,143,.08) 100%);
+
+      /* Ink (text) — deep navy derived from brand blue for readable contrast on white */
+      --ink:        #0f1b3d;
+      --ink-soft:   rgba(15, 27, 61, .72);
+      --ink-muted:  rgba(15, 27, 61, .54);
+      --ink-faint:  rgba(15, 27, 61, .22);
+
+      /* Surfaces — pure white, no tints */
+      --bg:           #ffffff;
+      --bg-tint:      #ffffff;
+      --border:       rgba(15, 27, 61, .10);
+      --border-strong:rgba(15, 27, 61, .18);
+
+      /* Card surfaces — solid white (no glass) */
+      --glass:        #ffffff;
+      --glass-strong: #ffffff;
+      --glass-border: rgba(15, 27, 61, .08);
+
+      /* Type scale */
+      --display: "Bricolage Grotesque", "SF Pro Display", system-ui, sans-serif;
+      --body:    "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+      --h-hero: clamp(2.6rem, 6vw, 5.2rem);
+      --h-section: clamp(2rem, 3.6vw, 3.2rem);
+      --h-card: clamp(1.1rem, 1.4vw, 1.35rem);
+
+      /* Layout */
+      --maxw: 1200px;
+      --pad-x: clamp(20px, 4vw, 48px);
+
+      /* Motion */
+      --ease-out: cubic-bezier(.22, 1, .36, 1);
+      --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+    }
+
+    *,
+    *::before,
+    *::after{ box-sizing: border-box; }
+
+    html{ scroll-behavior: smooth; }
+
+    body{
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--body);
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    ::selection{ background: rgba(233, 63, 143, .18); color: var(--ink); }
+
+    /* ============================================================
+       NAV — sticky white header
+       ============================================================ */
+    .site-nav{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      width: 100%;
+      padding: 14px var(--pad-x);
+      background: #ffffff;
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s var(--ease-out), padding .3s var(--ease-out);
+    }
+    .site-nav.is-scrolled{
+      border-bottom-color: var(--border);
+      padding: 10px var(--pad-x);
+    }
+
+    .nav-inner{
+      max-width: var(--maxw);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .nav-brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .nav-brand img{
+      height: 38px;
+      width: auto;
+      display: block;
+    }
+
+    .nav-links{
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a{
+      padding: 8px 14px;
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: .94rem;
+      border-radius: 999px;
+      transition: color .2s var(--ease-out), background-color .2s var(--ease-out);
+    }
+    .nav-links a:hover{
+      color: var(--ink);
+      background: rgba(15, 27, 61, .04);
+    }
+
+    .nav-cta{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: var(--brand-gradient);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: .92rem;
+      box-shadow: 0 8px 24px -8px rgba(128, 77, 153, .55);
+      transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
+    }
+    .nav-cta:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 12px 28px -8px rgba(128, 77, 153, .65);
+    }
+    .nav-cta svg{ width: 14px; height: 14px; }
+
+    .nav-menu-toggle{
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 10px;
+      cursor: pointer;
+      color: var(--ink);
+    }
+
+    /* ============================================================
+       SECTIONS — shared
+       ============================================================ */
+    /* Layering note: we deliberately DON'T set z-index on <main>.
+       Keeping a flat stacking context avoids isolating mix-blend-mode
+       (not currently used but kept future-proof). Nav and footer
+       carry their own z-index. */
+    main{
+      position: relative;
+      /* no z-index — preserves a flat stacking context */
+    }
+
+    section{
+      position: relative;
+      padding: clamp(72px, 9vw, 140px) var(--pad-x);
+    }
+
+    .container{
+      max-width: var(--maxw);
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .eyebrow{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .eyebrow::before{
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--brand-gradient);
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero{
+      position: relative;
+      padding-top: clamp(48px, 7vw, 96px);
+      padding-bottom: clamp(72px, 9vw, 140px);
+    }
+
+    .hero-inner{
+      max-width: var(--maxw);
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: clamp(32px, 5vw, 72px);
+      align-items: center;
+      min-height: calc(100vh - 200px);
+    }
+
+    .hero-copy{
+    }
+
+    .hero h1{
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: var(--h-hero);
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      margin: 22px 0 20px;
+      color: var(--ink);
+    }
+
+    .hero h1 .accent{
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .hero p.lead{
+      font-size: clamp(1.1rem, 1.3vw, 1.25rem);
+      line-height: 1.5;
+      color: var(--ink-soft);
+      margin: 0 0 32px;
+      max-width: 46ch;
+      font-weight: 400;
+    }
+
+    .hero-ctas{
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 26px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out), background .3s var(--ease-out);
+      white-space: nowrap;
+    }
+    .btn-primary{
+      background: var(--brand-gradient);
+      color: #fff;
+      box-shadow: 0 14px 32px -10px rgba(128, 77, 153, .55);
+    }
+    .btn-primary:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px -10px rgba(233, 63, 143, .55);
+    }
+    .btn-ghost{
+      background: #ffffff;
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover{
+      border-color: var(--border-strong);
+      transform: translateY(-2px);
+    }
+
+    .btn svg{ width: 16px; height: 16px; }
+
+    /* Hero visual — the signature C-shape with travel photo.
+       Brand photo assets are JPGs with white corners around the C-shape,
+       which sit invisibly on the white page background. */
+    .hero-visual{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 420px;
+    }
+
+    .visual-stack{
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+      aspect-ratio: 1 / 1;
+    }
+
+    .visual-card{
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .visual-card img{
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Floating stamp badge */
+    .stamp-badge{
+      position: absolute;
+      top: -6%;
+      right: -4%;
+      width: clamp(110px, 14vw, 150px);
+      height: clamp(110px, 14vw, 150px);
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 30px -12px rgba(15, 27, 61, .18);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: var(--display);
+      font-weight: 700;
+      color: var(--blue);
+      animation: stamp-float 7s ease-in-out infinite;
+      z-index: 3;
+    }
+    .stamp-badge::before{
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1.5px solid currentColor;
+      border-radius: 50%;
+      opacity: .55;
+    }
+    .stamp-badge span.big{
+      font-size: .95rem;
+      letter-spacing: .1em;
+      line-height: 1.1;
+    }
+    .stamp-badge span.small{
+      font-size: .65rem;
+      letter-spacing: .16em;
+      font-weight: 600;
+      margin-top: 4px;
+      opacity: .8;
+    }
+    .stamp-badge svg{
+      width: 28px;
+      height: 28px;
+      margin-bottom: 4px;
+      color: var(--magenta);
+    }
+
+    @keyframes stamp-float{
+      0%, 100% { transform: translateY(0) rotate(-8deg); }
+      50%      { transform: translateY(-10px) rotate(-4deg); }
+    }
+
+    /* Trust strip */
+    .trust-strip{
+      margin-top: clamp(48px, 7vw, 80px);
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--ink-muted);
+      font-size: .85rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .trust-strip .trust-item{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .trust-strip .trust-item svg{
+      width: 16px;
+      height: 16px;
+      color: var(--purple);
+    }
+
+    /* ============================================================
+       FEATURES
+       ============================================================ */
+    #features{
+      background: #ffffff;
+    }
+
+    .section-head{
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto clamp(48px, 6vw, 80px);
+    }
+    .section-head h2{
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: var(--h-section);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin: 18px 0 16px;
+      color: var(--ink);
+    }
+    .section-head p{
+      font-size: clamp(1.02rem, 1.15vw, 1.15rem);
+      color: var(--ink-soft);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .feature-grid{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature-card{
+      position: relative;
+      padding: 32px 28px;
+      border-radius: 24px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      transition: transform .4s var(--ease-out), box-shadow .4s var(--ease-out), border-color .4s var(--ease-out);
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .feature-card::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: var(--brand-gradient);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      opacity: 0;
+      transition: opacity .4s var(--ease-out);
+      pointer-events: none;
+      z-index: 1;
+    }
+    .feature-card:hover{
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px -25px rgba(15, 27, 61, .25);
+    }
+    .feature-card:hover::before{
+      opacity: 1;
+    }
+
+    .feature-icon{
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      background: var(--brand-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin-bottom: 22px;
+      box-shadow: 0 10px 24px -10px rgba(128, 77, 153, .55);
+    }
+    .feature-icon svg{ width: 26px; height: 26px; }
+
+    .feature-card h3{
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: var(--h-card);
+      letter-spacing: -0.015em;
+      margin: 0 0 10px;
+      color: var(--ink);
+    }
+    .feature-card p{
+      font-size: .97rem;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    /* ============================================================
+       ABOUT — split with C-shape photo
+       ============================================================ */
+    .about-inner{
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: clamp(32px, 5vw, 80px);
+      align-items: center;
+    }
+
+    .about-visual{
+      position: relative;
+    }
+    .about-visual img{
+      width: 100%;
+      height: auto;
+      max-width: 520px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .about-copy h2{
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: var(--h-section);
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin: 18px 0 20px;
+      color: var(--ink);
+    }
+    .about-copy p{
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: var(--ink-soft);
+      margin: 0 0 18px;
+    }
+
+    .stats-row{
+      margin-top: 36px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .stat-item{
+      padding: 20px;
+      border-radius: 18px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+    }
+    .stat-item .num{
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+      letter-spacing: -0.02em;
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-item .lbl{
+      font-size: .82rem;
+      color: var(--ink-muted);
+      font-weight: 500;
+      letter-spacing: .04em;
+    }
+
+    /* ============================================================
+       CTA BAND
+       ============================================================ */
+    .cta-band{
+      padding: clamp(48px, 6vw, 80px) var(--pad-x);
+    }
+    .cta-band-inner{
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: clamp(48px, 6vw, 80px);
+      border-radius: 32px;
+      background: var(--brand-gradient);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 40px 80px -30px rgba(128, 77, 153, .55);
+    }
+    .cta-band-inner::before,
+    .cta-band-inner::after{
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .cta-band-inner::before{
+      width: 340px;
+      height: 340px;
+      background: rgba(255, 255, 255, .22);
+      top: -100px;
+      right: -60px;
+    }
+    .cta-band-inner::after{
+      width: 260px;
+      height: 260px;
+      background: rgba(0, 92, 169, .55);
+      bottom: -80px;
+      left: -40px;
+    }
+
+    .cta-band h2{
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(1.7rem, 2.8vw, 2.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      margin: 0 0 8px;
+      max-width: 18ch;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-band p{
+      margin: 0;
+      font-size: 1.05rem;
+      opacity: .9;
+      max-width: 40ch;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-band .cta-band-actions{
+      display: flex;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+      flex-wrap: wrap;
+    }
+    .cta-band .btn-primary{
+      background: #fff;
+      color: var(--purple);
+      box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .25);
+    }
+    .cta-band .btn-primary:hover{
+      color: var(--magenta);
+    }
+    .cta-band .btn-ghost{
+      background: transparent;
+      color: #fff;
+      border-color: rgba(255, 255, 255, .4);
+    }
+    .cta-band .btn-ghost:hover{
+      background: rgba(255, 255, 255, .12);
+      border-color: rgba(255, 255, 255, .7);
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .site-footer{
+      padding: 72px var(--pad-x) 36px;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 2;
+    }
+    .footer-inner{
+      max-width: var(--maxw);
+      margin: 0 auto;
+    }
+    .footer-top{
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 48px;
+      border-bottom: 1px solid var(--border);
+    }
+    .footer-brand img{
+      height: 40px;
+      width: auto;
+      margin-bottom: 16px;
+    }
+    .footer-brand p{
+      font-size: .92rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      max-width: 34ch;
+      margin: 0 0 20px;
+    }
+    .footer-social{
+      display: flex;
+      gap: 10px;
+    }
+    .footer-social a{
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(15, 27, 61, .04);
+      color: var(--ink);
+      transition: background .2s var(--ease-out), color .2s var(--ease-out), transform .2s var(--ease-out);
+    }
+    .footer-social a:hover{
+      background: var(--brand-gradient);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .footer-social svg{ width: 16px; height: 16px; }
+
+    .footer-col h4{
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin: 0 0 18px;
+    }
+    .footer-col ul{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .footer-col li{
+      margin-bottom: 12px;
+    }
+    .footer-col a{
+      color: var(--ink-soft);
+      text-decoration: none;
+      font-size: .92rem;
+      transition: color .2s var(--ease-out);
+    }
+    .footer-col a:hover{ color: var(--magenta); }
+
+    .footer-bottom{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 28px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+    .footer-bottom p{
+      margin: 0;
+      font-size: .85rem;
+      color: var(--ink-muted);
+    }
+    .footer-bottom .footer-legal{
+      display: flex;
+      gap: 24px;
+    }
+    .footer-bottom .footer-legal a{
+      color: var(--ink-muted);
+      text-decoration: none;
+      font-size: .85rem;
+      transition: color .2s var(--ease-out);
+    }
+    .footer-bottom .footer-legal a:hover{ color: var(--ink); }
+
+    /* ============================================================
+       SCROLL REVEAL
+       Progressive enhancement: reveal effects are only applied when
+       JS has booted and added .js-ready to <html>. Without JS,
+       everything is visible immediately — the site never breaks.
+       ============================================================ */
+    .js-ready .reveal{
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .9s var(--ease-out), transform .9s var(--ease-out);
+    }
+    .js-ready .reveal.is-visible{
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .js-ready .reveal.delay-1{ transition-delay: .1s; }
+    .js-ready .reveal.delay-2{ transition-delay: .2s; }
+    .js-ready .reveal.delay-3{ transition-delay: .3s; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 980px){
+      .hero-inner{
+        grid-template-columns: 1fr;
+        gap: 48px;
+        text-align: center;
+      }
+      .hero-copy{ order: 2; }
+      .hero-visual{ order: 1; }
+      .hero p.lead{ margin-left: auto; margin-right: auto; }
+      .hero-ctas{ justify-content: center; }
+      .trust-strip{ justify-content: center; }
+
+      .feature-grid{
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .about-inner{
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .stats-row{ max-width: 520px; margin-left: auto; margin-right: auto; }
+
+      .footer-top{
+        grid-template-columns: 1fr 1fr;
+        gap: 36px 24px;
+      }
+
+      .cta-band-inner{
+        flex-direction: column;
+        text-align: center;
+      }
+      .cta-band-inner .cta-band-actions{ justify-content: center; }
+    }
+
+    @media (max-width: 640px){
+      .nav-links{ display: none; }
+      .nav-menu-toggle{ display: inline-flex; }
+
+      .feature-grid{
+        grid-template-columns: 1fr;
+      }
+      .stats-row{
+        grid-template-columns: 1fr;
+      }
+      .footer-top{
+        grid-template-columns: 1fr;
+      }
+      .footer-bottom{
+        flex-direction: column;
+        text-align: center;
+      }
+      .hero h1{ font-size: clamp(2.2rem, 10vw, 3rem); }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *,
+      *::before,
+      *::after{
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .reveal{ opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- STICKY NAV -->
+  <nav class="site-nav" id="siteNav" aria-label="Primary">
+    <div class="nav-inner">
+      <a href="#top" class="nav-brand" aria-label="FlyAll home">
+        <img src="./flyall_logo.svg" alt="FlyAll" />
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <a href="#contact" class="nav-cta">
+        Get Early Access
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </a>
+
+      <button class="nav-menu-toggle" aria-label="Open menu" id="navToggle">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <main id="top">
+
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section class="hero">
+      <div class="hero-inner">
+
+        <div class="hero-copy">
+          <span class="eyebrow reveal">Travel technology · Currently in stealth</span>
+
+          <h1 class="reveal delay-1">
+            Your travels,<br/>
+            <span class="accent">reimagined.</span>
+          </h1>
+
+          <p class="lead reveal delay-2">
+            FlyAll is building a travel technology platform that streamlines booking and trip workflows — a seamless, personalized journey from the moment you dream to the moment you return.
+          </p>
+
+          <div class="hero-ctas reveal delay-3">
+            <a href="#contact" class="btn btn-primary">
+              Get Early Access
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </a>
+            <a href="#features" class="btn btn-ghost">
+              See what we're building
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="visual-stack">
+            <div class="visual-card">
+              <img src="./flyall_nature_01.jpg" alt="" />
+            </div>
+            <!-- Floating "No Limits" stamp badge -->
+            <div class="stamp-badge" role="presentation">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+              </svg>
+              <span class="big">NO LIMITS</span>
+              <span class="small">GO ANYWHERE</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="container">
+        <div class="trust-strip reveal">
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 L15 8 L22 9 L17 14 L18 21 L12 18 L6 21 L7 14 L2 9 L9 8 Z"/></svg>
+            Built for travelers
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Bookings in seconds
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8Z"/><circle cx="12" cy="10" r="3"/></svg>
+            Global coverage
+          </div>
+          <div class="trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Privacy-first
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FEATURES
+         ============================================================ -->
+    <section id="features">
+      <div class="container">
+
+        <div class="section-head">
+          <span class="eyebrow">What we're building</span>
+          <h2 class="reveal delay-1">One platform for every trip.</h2>
+          <p class="reveal delay-2">From the spark of an idea to the last boarding pass, FlyAll pulls the chaos of travel into a single, calm workflow that adapts to how you actually travel.</p>
+        </div>
+
+        <div class="feature-grid">
+
+          <article class="feature-card reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>
+              </svg>
+            </div>
+            <h3>Intelligent booking</h3>
+            <p>Search, compare and book flights, stays and experiences without the twenty tabs. A single unified flow, end to end.</p>
+          </article>
+
+          <article class="feature-card reveal delay-1">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+                <path d="M8 14h3M13 14h3M8 18h3"/>
+              </svg>
+            </div>
+            <h3>Living itineraries</h3>
+            <p>Every reservation, confirmation and detail organised automatically — and rescheduled the moment anything changes.</p>
+          </article>
+
+          <article class="feature-card reveal delay-2">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2 L2 7 L12 12 L22 7 L12 2 Z"/>
+                <path d="M2 17 L12 22 L22 17"/>
+                <path d="M2 12 L12 17 L22 12"/>
+              </svg>
+            </div>
+            <h3>Personal to you</h3>
+            <p>Recommendations shaped by how <em>you</em> travel — not by sponsored placement. The more you fly, the sharper it gets.</p>
+          </article>
+
+          <article class="feature-card reveal">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2 L13 9 L20 9 L11 22 L11 15 L4 15 Z"/>
+              </svg>
+            </div>
+            <h3>Real-time alerts</h3>
+            <p>Delays, gate changes, visa updates, weather impacts — surfaced the moment they matter, never a minute later.</p>
+          </article>
+
+          <article class="feature-card reveal delay-1">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+              </svg>
+            </div>
+            <h3>Built to travel with</h3>
+            <p>Edit on a napkin, on a plane, on a mountain. Offline-first, airport-tested, hand-friendly on any screen.</p>
+          </article>
+
+          <article class="feature-card reveal delay-2">
+            <div class="feature-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8Z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <h3>Anywhere you go</h3>
+            <p>From a weekend city break to a six-month passage. Same experience, same tools — just a different postcard.</p>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ABOUT
+         ============================================================ -->
+    <section id="about">
+      <div class="container">
+        <div class="about-inner">
+
+          <div class="about-visual">
+            <img src="./flyall_nature_02.jpg" alt="A coastal view framed in the FlyAll signature C-shape" />
+          </div>
+
+          <div class="about-copy">
+            <span class="eyebrow">About FlyAll</span>
+            <h2>A calmer way to move through the world.</h2>
+            <p>Travel technology hasn't meaningfully changed in a decade. Booking still sprawls across countless tabs. Confirmations still live in thirty different inboxes. Trip planning still feels like a second job.</p>
+            <p>FlyAll is a small team — based in Tel Aviv, Israel — rebuilding the travel stack from the traveler out. Every workflow that used to cost you an evening should take a minute. Every surprise should be a good one.</p>
+
+            <div class="stats-row">
+              <div class="stat-item">
+                <div class="num">1</div>
+                <div class="lbl">Platform, every trip</div>
+              </div>
+              <div class="stat-item">
+                <div class="num">24/7</div>
+                <div class="lbl">Along for the ride</div>
+              </div>
+              <div class="stat-item">
+                <div class="num">∞</div>
+                <div class="lbl">Destinations, no limits</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CTA BAND
+         ============================================================ -->
+    <section class="cta-band" id="contact">
+      <div class="cta-band-inner">
+        <div>
+          <h2>Ready when you are.</h2>
+          <p>Join the early access list and be the first to fly with us when we leave stealth.</p>
+        </div>
+        <div class="cta-band-actions">
+          <a href="mailto:omeral@checkin-travel.io?subject=FlyAll%20Early%20Access" class="btn btn-primary">
+            Get Early Access
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/110755353/" target="_blank" rel="noopener" class="btn btn-ghost">
+            Follow on LinkedIn
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="./flyall_logo.svg" alt="FlyAll" />
+          <p>Travel technology for the way you actually move through the world. Currently in stealth, based in Tel Aviv, Israel.</p>
+          <div class="footer-social">
+            <a href="https://www.linkedin.com/company/110755353/" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.73V1.73C24 .77 23.21 0 22.23 0Z"/></svg>
+            </a>
+            <a href="mailto:omeral@checkin-travel.io" aria-label="Email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Early Access</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#about">Our story</a></li>
+            <li><a href="https://www.linkedin.com/company/110755353/" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a href="mailto:omeral@checkin-travel.io">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="./privacy.html">Privacy Policy</a></li>
+            <li><a href="./terms.html">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 FlyAll · Based in Tel Aviv, Israel</p>
+        <div class="footer-legal">
+          <a href="./privacy.html">Privacy</a>
+          <a href="./terms.html">Terms</a>
+          <a href="mailto:omeral@checkin-travel.io">Contact</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    /* Tag <html> so reveal styles activate. Without JS, everything
+       stays at opacity:1 (see .js-ready gate in CSS). */
+    document.documentElement.classList.add('js-ready');
+
+    /* ============================================================
+       STICKY NAV STATE
+       ============================================================ */
+    (function(){
+      const nav = document.getElementById('siteNav');
+      if (!nav) return;
+
+      let ticking = false;
+      function onScroll(){
+        if (!ticking){
+          requestAnimationFrame(function(){
+            if (window.scrollY > 10) nav.classList.add('is-scrolled');
+            else nav.classList.remove('is-scrolled');
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
+
+    /* ============================================================
+       SIMPLE MOBILE MENU — reveals links as a dropdown
+       ============================================================ */
+    (function(){
+      const btn = document.getElementById('navToggle');
+      const links = document.querySelector('.nav-links');
+      if (!btn || !links) return;
+
+      btn.addEventListener('click', function(){
+        const open = links.style.display === 'flex';
+        if (open){
+          links.style.display = '';
+        } else {
+          links.style.display = 'flex';
+          links.style.position = 'absolute';
+          links.style.top = '100%';
+          links.style.left = '0';
+          links.style.right = '0';
+          links.style.flexDirection = 'column';
+          links.style.padding = '12px';
+          links.style.background = 'rgba(255,255,255,0.96)';
+          links.style.backdropFilter = 'blur(14px)';
+          links.style.borderBottom = '1px solid var(--border)';
+          links.style.gap = '0';
+        }
+      });
+
+      // Close on link click
+      links.addEventListener('click', function(e){
+        if (e.target.tagName === 'A' && window.innerWidth <= 640){
+          links.style.display = '';
+        }
+      });
+    })();
+
+    /* ============================================================
+       SCROLL REVEAL — Intersection Observer
+       Triggers slightly before elements enter the viewport so there's
+       no visible "pop". Safety net: if observer hasn't fired within
+       3s (e.g. element taller than viewport, slow scroll), reveal
+       anyway so nothing can stay invisible forever.
+       ============================================================ */
+    (function(){
+      const items = document.querySelectorAll('.reveal');
+      if (!items.length) return;
+
+      if (!('IntersectionObserver' in window)){
+        items.forEach(function(el){ el.classList.add('is-visible'); });
+        return;
+      }
+
+      const io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting){
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.05,
+        rootMargin: '0px 0px -8% 0px'
+      });
+
+      items.forEach(function(el){ io.observe(el); });
+
+      // Safety net — on full page load, any .reveal still within (or above)
+      // the viewport should be visible even if the observer never fired.
+      window.addEventListener('load', function(){
+        setTimeout(function(){
+          items.forEach(function(el){
+            const r = el.getBoundingClientRect();
+            if (r.top < window.innerHeight + 100){
+              el.classList.add('is-visible');
+            }
+          });
+        }, 100);
+      });
+    })();
+  </script>
+</body>
+</html>
